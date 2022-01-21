@@ -305,7 +305,7 @@ function main()
         end
     else
         lib = :librocrand
-        config[lib] = find_rocr_library("librocrand")
+        config[lib] = find_roc_library("librocrand")
         if config[lib] === nothing
             build_warning("Could not find library 'librocrand'")
         else
