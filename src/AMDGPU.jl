@@ -183,7 +183,7 @@ function __init__()
             @warn "HSA initialization failed with code $status"
         end
     else
-        @warn """
+        @debug """
         HSA runtime has not been built, runtime functionality will be unavailable.
         Please run Pkg.build("AMDGPU") and reload AMDGPU.
         Reason: $hsa_build_reason
@@ -204,7 +204,7 @@ function __init__()
 
     # Check whether ld.lld was found
     if !lld_configured
-        @warn """
+        @debug """
         ld.lld was not found, compilation functionality will be unavailable.
         Please run Pkg.build("AMDGPU") and reload AMDGPU.
         Reason: $lld_build_reason
@@ -214,7 +214,7 @@ function __init__()
     if hip_configured
         push!(Libdl.DL_LOAD_PATH, dirname(libhip_path))
     else
-        @warn """
+        @debug """
         HIP library has not been built, runtime functionality will be unavailable.
         Please run Pkg.build("AMDGPU") and reload AMDGPU.
         Reason: $hip_build_reason
@@ -223,7 +223,7 @@ function __init__()
 
     # Check whether device intrinsics are available
     if !device_libs_configured
-        @warn """
+        @debug """
         ROCm-Device-Libs were not found, device intrinsics will be unavailable.
         Please run Pkg.build("AMDGPU") and reload AMDGPU.
         Reason: $device_libs_build_reason
@@ -232,7 +232,7 @@ function __init__()
 
     # Check whether external libraries are available
     if use_artifacts && !rocrand_configured
-        @warn """
+        @debug """
         rocRAND failed to load, RNG functionality will be unavailable.
         Please run Pkg.build("AMDGPU") and reload AMDGPU.
         Reason: $rocrand_build_reason
