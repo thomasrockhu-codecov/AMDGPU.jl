@@ -24,38 +24,6 @@ end
     ρ, k
 end
 
-@inline function sqrt(z::Complex)
-    z = float(z)
-    x, y = reim(z)
-    if x==y==0
-        return Complex(zero(x),y)
-    end
-    ρ, k::Int = ssqs(x, y)
-    if isfinite(x)
-         ρ=ldexp(abs(x),-k)+sqrt(ρ)
-    end
-    if isodd(k)
-        k = div(k-1,2)
-    else
-        k = div(k,2)-1
-        ρ += ρ
-    end
-    ρ = ldexp(sqrt(ρ),k) #sqrt((abs(z)+abs(x))/2) without over/underflow
-    ξ = ρ
-    η = y
-    if ρ != 0
-        if isfinite(η)
-            η=(η/ρ)/2
-        end
-        if x<0
-            ξ = abs(η)
-            η = copysign(ρ,y)
-        end
-    end
-    Complex(ξ,η)
-end
-
-
 import Statistics
 function Statistics.corzm(x::ROCArray{<:Any, 2}, vardim::Int=1)
     c = Statistics.unscaled_covzm(x, vardim)
