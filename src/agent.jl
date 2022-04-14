@@ -43,6 +43,10 @@ end
 Returns the list of HSA agents available on the system.
 """
 function get_agents()
+    if !isempty(AGENTS)
+        return copy(collect(values(AGENTS)))
+    end
+
     agents = Ref(Vector{HSAAgent}())
     GC.@preserve agents begin
         func = @cfunction(iterate_agents_cb, HSA.Status,
